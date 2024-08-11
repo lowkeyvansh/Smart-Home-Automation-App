@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Home Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { text-align: center; }
+        .device { margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Smart Home Dashboard</h1>
+    <div class="device">
+        <h2>Light</h2>
+        <button onclick="controlLight('on')">Turn On</button>
+        <button onclick="controlLight('off')">Turn Off</button>
+    </div>
+    <div class="device">
+        <h2>Thermostat</h2>
+        <input type="number" id="temperature" placeholder="Set Temperature">
+        <button onclick="setTemperature()">Set</button>
+    </div>
+
+    <script>
+        async function controlLight(action) {
+            await fetch(`/light/${action}`, { method: 'POST' });
+        }
+
+        async function setTemperature() {
+            const temp = document.getElementById('temperature').value;
+            await fetch('/thermostat/set', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ temperature: temp })
+            });
+        }
+    </script>
+</body>
+</html>
